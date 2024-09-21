@@ -69,3 +69,33 @@ Avoid complexity and give deeper insight into the business of the domain through
 - Prefer value objects to entities
 - Constrain the design to a traversal direction
 - Reduce 1-to-many relationships when possible
+
+# The Life Cycle of a Domain Object
+
+Domains objects implementations need to:
+> - Maintain integrity throughout the lifecycle
+> - Preventing the model from getting swamped by the complexity of managing the lifecycle
+
+## Aggregates
+
+An Aggregate is a cluster of associated objects that we treat as a unit for the purpose of data changes.
+
+Each Aggregate has:
+- A root: a single, specific Entity contained in the Aggregate
+- A boundary: what is inside the Aggregate
+
+Objects outside of the Aggregate can hold the reference only to the root.
+
+Invariants are consistency rules that must be maintained whenever data changes and will be enforced with the completion of each transaction.
+
+## Factories
+
+Encapsulate internal structure of a complex object when creating or reconstituting it.
+
+When reconstituting a stored object, invariants violation should be handled gracefully: it shouldn't be ignored and it shouldn't be an error.
+
+## Repositories
+
+Access a subset of Aggregate roots through a search based on attributes
+
+Repository should not handle transaction control: the client should have the context to initiate and commit units of work.
